@@ -7,27 +7,13 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import mn.turbo.room.common.Constants
-import mn.turbo.room.db.SchoolDatabase
-import mn.turbo.room.db.migration.MIGRATION_1_2
-import mn.turbo.room.db.migration.MIGRATION_2_3
-import mn.turbo.room.db.migration.UserDatabase
+import mn.turbo.room.database.UserDatabase
+import mn.turbo.room.database.dao.UserDao
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
-    @Provides
-    @Singleton
-    fun provideDatabase(app: Application): SchoolDatabase {
-        return Room
-            .databaseBuilder(
-                app.applicationContext,
-                SchoolDatabase::class.java,
-                Constants.SCHOOL_DATABASE_NAME
-            )
-            .build()
-    }
 
     @Provides
     @Singleton
@@ -38,8 +24,15 @@ object AppModule {
                 UserDatabase::class.java,
                 Constants.USER_DATABASE_NAME
             )
-            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+            .addMigrations(UserDatabase.migration3To4)
             .build()
     }
 
+    @Provides
+    @Singleton
+    fun provideUserDao(
+        database: UserDatabase
+    ): UserDao {
+        return database.userDao
+    }
 }

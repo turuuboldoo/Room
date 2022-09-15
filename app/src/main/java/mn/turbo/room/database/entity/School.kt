@@ -1,4 +1,4 @@
-package mn.turbo.room.db.entity
+package mn.turbo.room.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -6,5 +6,5 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "schools")
 data class School(
     @PrimaryKey(autoGenerate = false)
-    var name: String
+    val name: String
 )
