@@ -17,7 +17,9 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideUserDatabase(app: Application): UserDatabase {
+    fun provideUserDatabase(
+        app: Application
+    ): UserDatabase {
         return Room
             .databaseBuilder(
                 app.applicationContext,
